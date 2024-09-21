@@ -5,40 +5,31 @@ steps:
       - 'compute'
       - 'instances'
       - 'create'
-      - 'my-windows-instance45'
-      - '--zone=us-central1-a'
-      - '--machine-type=n1-standard-2'
-      - '--image-family=windows-2019'
-      - '--image-project=windows-cloud'
-      - '--boot-disk-size=50GB'
-      - '--boot-disk-type=pd-standard'
-      # Add startup script to create user
-      - '--metadata=windows-startup-script-ps1=Add-LocalUser -Name "admin_user" -Password (ConvertTo-SecureString "AdminPassword123!" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "admin_user"'
-      # Enable serial port for troubleshooting
-      - '--metadata=serial-port-enable=1'
-      # Set tags for firewall rules (http, https, and RDP)
-      - '--tags=http-server,https-server,rdp-server'
-
-  # Add firewall rule to allow RDP and HTTP/HTTPS access
+      - 'my-windows-instance45'  # Instance name
+      - '--zone=us-central1-a'   # Zone
+      - '--machine-type=n1-standard-2'  # Machine type
+      - '--image-family=windows-2019'   # Windows image
+      - '--image-project=windows-cloud' # Project with Windows images
+      - '--boot-disk-size=50GB'         # Boot disk size
+      - '--boot-disk-type=pd-standard'  # Disk type
+      - '--tags=http-server,https-server'  # Firewall tags
+      - '--metadata=enable-oslogin=false,windows-startup-script-ps1=Add-LocalUser -Name "admin_user" -Password (ConvertTo-SecureString "AdminPassword123!" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "admin_user"'
+  
+  # Step to manually reset the password, ensuring custom credentials are used
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: 'Add Firewall Rule'
+    id: 'Set Admin Username and Password'
     args:
       - 'compute'
-      - 'firewall-rules'
-      - 'create'
-      - 'allow-rdp-http-access'
-      - '--direction=INGRESS'
-      - '--priority=1000'
-      - '--network=default'
-      - '--action=ALLOW'
-      - '--rules=tcp:3389,tcp:80,tcp:443'
-      - '--source-ranges=0.0.0.0/0'
-      - '--target-tags=rdp-server,http-server,https-server'
+      - 'reset-windows-password'
+      - 'my-windows-instance45'
+      - '--user=admin_user'
+      - '--zone=us-central1-a'
+      - '--password=AdminPassword123!'
 
-serviceAccount: '978741093453-compute@developer.gserviceaccount.com'
-logsBucket: 'gs://gcstestexx'
+serviceAccount: '978741093453-compute@developer.gserviceaccount.com'  # Service account for the instance
+logsBucket: 'gs://gcstestexx'  # Log bucket
 timeout: '1200s'
 
 substitutions:
-  _INSTANCE_NAME: 'my-windows-instance45'
+  _INSTANCE_NAME: 'my-windows-instance45'  # Optional substitution
 
