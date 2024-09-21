@@ -12,26 +12,28 @@ steps:
       - '--image-project=windows-cloud'
       - '--boot-disk-size=50GB'
       - '--boot-disk-type=pd-standard'
-      # Adding serial port access
+      # Add startup script to create user
       - '--metadata=windows-startup-script-ps1=Add-LocalUser -Name "admin_user" -Password (ConvertTo-SecureString "AdminPassword123!" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "admin_user"'
+      # Enable serial port for troubleshooting
       - '--metadata=serial-port-enable=1'
-      - '--tags=http-server,https-server'
-  
-  # Add firewall rule to allow access to required ports
+      # Set tags for firewall rules (http, https, and RDP)
+      - '--tags=http-server,https-server,rdp-server'
+
+  # Add firewall rule to allow RDP and HTTP/HTTPS access
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Add Firewall Rule'
     args:
       - 'compute'
       - 'firewall-rules'
       - 'create'
-      - 'allow-serial-rdp-http-access'
+      - 'allow-rdp-http-access'
       - '--direction=INGRESS'
       - '--priority=1000'
       - '--network=default'
       - '--action=ALLOW'
-      - '--rules=tcp:3389,tcp:80,tcp:443,tcp:22'
+      - '--rules=tcp:3389,tcp:80,tcp:443'
       - '--source-ranges=0.0.0.0/0'
-      - '--target-tags=http-server,https-server'
+      - '--target-tags=rdp-server,http-server,https-server'
 
 serviceAccount: '978741093453-compute@developer.gserviceaccount.com'
 logsBucket: 'gs://gcstestexx'
