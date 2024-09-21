@@ -6,7 +6,7 @@ steps:
       - 'compute'
       - 'instances'
       - 'create'
-      - 'my-gcstest-instance5'  # Your instance name
+      - 'gcstest-55'  # Your instance name
       - '--zone=us-central1-f'   # Your instance zone
       - '--machine-type=n1-standard-2'  # Your machine type
       - '--image-family=windows-2022'  # OS image family (Windows Server 2022)
@@ -23,7 +23,7 @@ steps:
       - 'reset-windows-password'
       - '--zone=us-central1-f'
       - '--user=testgcpnow'  # Your username
-      - '--instance=my-gcstest-instance5'  # Your instance name
+      - '--instance=gcstest-55'  # Your instance name
 
 # Optional: Define a timeout (adjust if necessary)
 timeout: '1200s'  # 20 minutes
@@ -36,11 +36,9 @@ logs_bucket: 'gs://gcstestex'  # Replace with your logs bucket
 
 # Optional: Define any substitutions for reusable configuration
 substitutions:
-  _INSTANCE_NAME: 'my-gcstest-instance5'  # Your instance name
+  _INSTANCE_NAME: 'gcstest-55'  # Your instance name
 
 # Optional: Specify triggers for automatic builds
 trigger:
   - branch: '^main$'
-
-
 
