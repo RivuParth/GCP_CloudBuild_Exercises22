@@ -1,28 +1,42 @@
 steps:
-  
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Create Compute Engine Instance'
     args:
       - 'compute'
       - 'instances'
       - 'create'
-      - 'my-windows-instance46'          
-      - '--zone=us-central1-a'         
-      - '--machine-type=n1-standard-2'  
-      - '--image-family=windows-2019'   
-      - '--image-project=windows-cloud' 
-      - '--boot-disk-size=50GB'         
-      - '--boot-disk-type=pd-standard'  
+      - 'my-windows-instance45'
+      - '--zone=us-central1-a'
+      - '--machine-type=n1-standard-2'
+      - '--image-family=windows-2019'
+      - '--image-project=windows-cloud'
+      - '--boot-disk-size=50GB'
+      - '--boot-disk-type=pd-standard'
+      # Adding serial port access
+      - '--metadata=windows-startup-script-ps1=Add-LocalUser -Name "admin_user" -Password (ConvertTo-SecureString "AdminPassword123!" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "admin_user"'
       - '--metadata=serial-port-enable=1'
-      - '--metadata=windows-startup-script-ps1=Add-LocalUser -Name "admin_use" -Password (ConvertTo-SecureString "AdminPassword123!" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "admin_user"'
-      - '--tags=http-server,https-server'  
+      - '--tags=http-server,https-server'
+  
+  # Add firewall rule to allow access to required ports
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'Add Firewall Rule'
+    args:
+      - 'compute'
+      - 'firewall-rules'
+      - 'create'
+      - 'allow-serial-rdp-http-access'
+      - '--direction=INGRESS'
+      - '--priority=1000'
+      - '--network=default'
+      - '--action=ALLOW'
+      - '--rules=tcp:3389,tcp:80,tcp:443,tcp:22'
+      - '--source-ranges=0.0.0.0/0'
+      - '--target-tags=http-server,https-server'
 
-
-serviceAccount: '978741093453-compute@developer.gserviceaccount.com'  
-logsBucket: 'gs://gcstestexx'           
+serviceAccount: '978741093453-compute@developer.gserviceaccount.com'
+logsBucket: 'gs://gcstestexx'
 timeout: '1200s'
 
-
 substitutions:
-  _INSTANCE_NAME: 'my-windows-instance46'
+  _INSTANCE_NAME: 'my-windows-instance45'
 
