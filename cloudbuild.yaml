@@ -16,6 +16,16 @@ steps:
       - '--metadata=windows-startup-script-ps1=Add-LocalUser -Name "admin_user" -Password (ConvertTo-SecureString "AdminPassword123!" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "admin_user"'
       - '--tags=http-server,https-server'  # Optional: allow HTTP/HTTPS firewall rules
 
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'Set Admin Username and Password'
+    args:
+      - 'compute'
+      - 'reset-windows-password'
+      - '--zone=us-central1-a'
+      - '--user=admin'  # Administrator username
+      - '--instance=my-windows-instance45'  # Your instance name
+
+
 # Service account and logging options
 serviceAccount: '878866643834-compute@developer.gserviceaccount.com'  # Specify your Compute Engine service account
 logsBucket: 'gs://gcstestex'           # Specify your logs bucket
