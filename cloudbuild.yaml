@@ -22,7 +22,7 @@ steps:
       - 'compute'
       - 'reset-windows-password'
       - '--zone=us-central1-a'
-      - '--user=admin'  # Administrator username
+      - '--user=bhowmick_partha1999'  # Administrator username
       - '--instance=my-windows-instance45'  # Your instance name
 
 
