@@ -5,7 +5,7 @@ steps:
       - 'compute'
       - 'instances'
       - 'create'
-      - 'my-windows-instance45'  # Instance name
+      - 'my-windows-instance46'  # Instance name
       - '--zone=us-central1-a'   # Zone
       - '--machine-type=n1-standard-2'  # Machine type
       - '--image-family=windows-2019'   # Windows image
@@ -13,23 +13,13 @@ steps:
       - '--boot-disk-size=50GB'         # Boot disk size
       - '--boot-disk-type=pd-standard'  # Disk type
       - '--tags=http-server,https-server'  # Firewall tags
-      - '--metadata=enable-oslogin=false,windows-startup-script-ps1=Add-LocalUser -Name "admin_user" -Password (ConvertTo-SecureString "AdminPassword123!" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "admin_user"'
-  
-  # Step to manually reset the password, ensuring custom credentials are used
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: 'Set Admin Username and Password'
-    args:
-      - 'compute'
-      - 'reset-windows-password'
-      - 'my-windows-instance45'
-      - '--user=admin_user'
-      - '--zone=us-central1-a'
-      - '--password=AdminPassword123!'
+      - '--metadata=windows-startup-script-ps1=Add-LocalUser -Name "admin_user" -Password (ConvertTo-SecureString "AdminPassword123!" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "admin_user"'
+      - '--metadata=enable-oslogin=false'  # Disable OS Login to prevent Google from overriding credentials
 
 serviceAccount: '978741093453-compute@developer.gserviceaccount.com'  # Service account for the instance
 logsBucket: 'gs://gcstestexx'  # Log bucket
 timeout: '1200s'
 
 substitutions:
-  _INSTANCE_NAME: 'my-windows-instance45'  # Optional substitution
+  _INSTANCE_NAME: 'my-windows-instance46'  # Optional substitution
 
