@@ -1,35 +1,24 @@
 steps:
-  # Step 1: Set up the Compute Engine instance with a startup script to create the user
+  # Step 1: Create the Compute Engine instance with a startup script
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: 'Create Compute Engine Instance with Startup Script'
+    id: 'Create Compute Engine Instance'
     args:
       - 'compute'
       - 'instances'
       - 'create'
-      - 'my-compute-instance248'
+      - 'my-compute-instance23'
       - '--zone=us-central1-a'
       - '--machine-type=n1-standard-2'
       - '--image-family=windows-2019'
       - '--image-project=windows-cloud'
       - '--boot-disk-size=50GB'
       - '--boot-disk-type=pd-standard'
+      - '--metadata=windows-startup-script-ps1=Add-LocalUser -Name "bhowmick_partha19988" -Password (ConvertTo-SecureString "MySecurePassword123" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "bhowmick_partha19988"'
       - '--tags=http-server,https-server'
-      - '--metadata=startup-script=powershell Add-LocalUser -Name "bhowmick_partha1999" -Password (ConvertTo-SecureString "your-password" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "bhowmick_partha1999"'
-
-  # Step 2: Reset the password (optional, if you need to reset it later)
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: 'Reset Admin Password'
-    args:
-      - 'compute'
-      - 'reset-windows-password'
-      - '--zone=us-central1-a'
-      - '--user=bhowmick_partha1999'
-      - '--instance=my-compute-instance248'
 
 # Specify the default service account for this build
 serviceAccount: '878866643834-compute@developer.gserviceaccount.com'
 logs_bucket: 'gs://gcstestex'
 timeout: '1200s'
 substitutions:
-  _INSTANCE_NAME: 'my-compute-instance248'
-
+  _INSTANCE_NAME: 'my-compute-instance23'
