@@ -6,14 +6,14 @@ steps:
       - 'compute'
       - 'instances'
       - 'create'
-      - 'my-compute-instance24'  # Your instance name
-      - '--zone=us-central1-a'     # Your instance zone
-      - '--machine-type=e2-medium' # Your machine type
-      - '--image-family=windows-2019'  # OS image family (Windows Server 2019)
-      - '--image-project=windows-cloud'  # Image project (Windows Cloud)
-      - '--boot-disk-size=50GB'  # Boot disk size (Standard 50 GB)
-      - '--boot-disk-type=pd-standard'  # Standard HDD disk type
-      - '--tags=http-server,https-server'  # Optional: Add firewall rules if needed
+      - 'my-compute-instance244'
+      - '--zone=us-central1-a'
+      - '--machine-type=n1-standard-2'
+      - '--image-family=windows-2019'
+      - '--image-project=windows-cloud'
+      - '--boot-disk-size=50GB'
+      - '--boot-disk-type=pd-standard'
+      - '--tags=http-server,https-server'
 
   # Step 2: Add the admin user and set the password
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -22,18 +22,13 @@ steps:
       - 'compute'
       - 'reset-windows-password'
       - '--zone=us-central1-a'
-      - '--user=bhowmick_partha19988'  # Your username
-      - '--instance=my-compute-instance24'  # Use the correct instance name here
+      - '--user=bhowmick_partha19988'
+      - '--instance=my-compute-instance244'
 
 # Specify the default service account for this build
 serviceAccount: '878866643834-compute@developer.gserviceaccount.com'
-
-# Specify the logs bucket (replace with your actual bucket name)
 logs_bucket: 'gs://gcstestex'
-
-# Optional: Define a timeout (adjust if necessary)
-timeout: '1200s'  # 20 minutes
-
-# Optional: Define any substitutions for reusable configuration
+timeout: '1200s'
 substitutions:
-  _INSTANCE_NAME: 'my-compute-instance24'  # Your instance name
+  _INSTANCE_NAME: 'my-compute-instance244'
+
