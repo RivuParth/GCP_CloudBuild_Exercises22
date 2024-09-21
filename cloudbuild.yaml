@@ -6,7 +6,7 @@ steps:
       - 'compute'
       - 'instances'
       - 'create'
-      - 'my-compute-instance20'
+      - 'my-compute-instance244'
       - '--zone=us-central1-a'
       - '--machine-type=n1-standard-2'
       - '--image-family=windows-2019'
@@ -17,20 +17,18 @@ steps:
 
   # Step 2: Add the admin user and set the password
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: 'Set Admin User'
+    id: 'Set Admin Username and Password'
     args:
       - 'compute'
-      - 'instances'
-      - 'add-metadata'
-      - 'my-compute-instance20'
+      - 'reset-windows-password'
       - '--zone=us-central1-a'
-      - '--metadata'
-      - 'windows-password=7:jS[N?LdUSTjp\', 'username=bhowmick_partha1999'
+      - '--user=bhowmick_partha19988'
+      - '--instance=my-compute-instance244'
 
 # Specify the default service account for this build
 serviceAccount: '878866643834-compute@developer.gserviceaccount.com'
 logs_bucket: 'gs://gcstestex'
 timeout: '1200s'
 substitutions:
-  _INSTANCE_NAME: 'my-compute-instance20'
+  _INSTANCE_NAME: 'my-compute-instance244'
 
