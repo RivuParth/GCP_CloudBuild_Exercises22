@@ -1,3 +1,4 @@
+# Cloud Build configuration file
 steps:
   # Step 1: Set up the Compute Engine instance
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -6,10 +7,10 @@ steps:
       - 'compute'
       - 'instances'
       - 'create'
-      - 'gcstest-55'  # Your instance name
-      - '--zone=us-central1-f'   # Your instance zone
-      - '--machine-type=n1-standard-2'  # Your machine type
-      - '--image-family=windows-2022'  # OS image family (Windows Server 2022)
+      - 'my-compute-instance23'  # Your instance name
+      - '--zone=us-central1-a'     # Your instance zone
+      - '--machine-type=e2-medium' # Your machine type
+      - '--image-family=windows-2019'  # OS image family (Windows Server 2019)
       - '--image-project=windows-cloud'  # Image project (Windows Cloud)
       - '--boot-disk-size=50GB'  # Boot disk size (Standard 50 GB)
       - '--boot-disk-type=pd-standard'  # Standard HDD disk type
@@ -21,25 +22,19 @@ steps:
     args:
       - 'compute'
       - 'reset-windows-password'
-      - '--zone=us-central1-f'
-      - '--user=testgcpnow'  # Your username
-      - '--instance=gcstest-55'  # Your instance name
+      - '--zone=us-central1-a'
+      - '--user=bhowmick_partha19988'  # Your username
+      - '--instance=my-compute-instance24'  # Your instance name
+
+# Specify the default service account for this build
+serviceAccount: '878866643834-compute@developer.gserviceaccount.com'
+
+# Specify the logs bucket (replace with your actual bucket name)
+logs_bucket: 'gs://gcstestex'
 
 # Optional: Define a timeout (adjust if necessary)
 timeout: '1200s'  # 20 minutes
 
-#test
-# Specify the service account if required
-serviceAccount: '878866643834-compute@developer.gserviceaccount.com'
-
-# Define your logs bucket
-logs_bucket: 'gs://gcstestex'  # Replace with your logs bucket
-
 # Optional: Define any substitutions for reusable configuration
 substitutions:
-  _INSTANCE_NAME: 'gcstest-55'  # Your instance name
-
-# Optional: Specify triggers for automatic builds
-trigger:
-  - branch: '^main$'
-
+  _INSTANCE_NAME: 'my-compute-instance22'  # Your instance name
