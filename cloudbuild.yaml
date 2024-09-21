@@ -1,3 +1,4 @@
+# Cloud Build configuration file
 steps:
   # Step 1: Set up the Compute Engine instance
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -7,8 +8,8 @@ steps:
       - 'instances'
       - 'create'
       - 'my-compute-instance22'  # Your instance name
-      - '--zone=us-central1-a'   # Your instance zone
-      - '--machine-type=e2-medium'  # Your machine type
+      - '--zone=us-central1-a'     # Your instance zone
+      - '--machine-type=e2-medium' # Your machine type
       - '--image-family=windows-2019'  # OS image family (Windows Server 2019)
       - '--image-project=windows-cloud'  # Image project (Windows Cloud)
       - '--boot-disk-size=50GB'  # Boot disk size (Standard 50 GB)
@@ -25,14 +26,12 @@ steps:
       - '--user=bhowmick_partha1999'  # Your username
       - '--instance=my-compute-instance22'  # Your instance name
 
+# Specify the default service account for this build
+serviceAccount: '878866643834-compute@developer.gserviceaccount.com'
+
 # Optional: Define a timeout (adjust if necessary)
 timeout: '1200s'  # 20 minutes
 
 # Optional: Define any substitutions for reusable configuration
 substitutions:
   _INSTANCE_NAME: 'my-compute-instance22'  # Your instance name
-
-# Optional: Specify triggers for automatic builds
-trigger:
-  - branch: '^main$'
-
