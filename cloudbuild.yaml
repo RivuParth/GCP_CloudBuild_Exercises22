@@ -5,7 +5,7 @@ steps:
       - 'compute'
       - 'instances'
       - 'create'
-      - 'my-windows-instance46'  # Instance name
+      - 'my-windows-instance99'  # Instance name
       - '--zone=us-central1-a'   # Zone
       - '--machine-type=n1-standard-2'  # Machine type
       - '--image-family=windows-2019'   # Windows image
@@ -13,13 +13,12 @@ steps:
       - '--boot-disk-size=50GB'         # Boot disk size
       - '--boot-disk-type=pd-standard'  # Disk type
       - '--tags=http-server,https-server'  # Firewall tags
-      - '--metadata=windows-startup-script-ps1=Add-LocalUser -Name "admin_user" -Password (ConvertTo-SecureString "AdminPassword123!" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "admin_user"'
-      - '--metadata=enable-oslogin=false'  # Disable OS Login to prevent Google from overriding credentials
+      - '--metadata=windows-startup-script-ps1=Add-LocalUser -Name "admin_user" -Password (ConvertTo-SecureString "AdminPassword123!" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "admin_user",enable-oslogin=false'  # Combine metadata keys
 
 serviceAccount: '978741093453-compute@developer.gserviceaccount.com'  # Service account for the instance
 logsBucket: 'gs://gcstestexx'  # Log bucket
 timeout: '1200s'
 
 substitutions:
-  _INSTANCE_NAME: 'my-windows-instance46'  # Optional substitution
+  _INSTANCE_NAME: 'my-windows-instance99'  # Optional substitution
 
