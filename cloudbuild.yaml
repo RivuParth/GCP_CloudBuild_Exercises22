@@ -1,29 +1,25 @@
 steps:
-  # Step 1: Create a Windows Compute Engine instance
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Create Compute Engine Instance'
     args:
       - 'compute'
       - 'instances'
       - 'create'
-      - 'my-windows-instance46'           # Instance name
-      - '--zone=us-central1-a'          # Specify the zone
-      - '--machine-type=n1-standard-2'  # Specify machine type
-      - '--image-family=windows-2019'   # Windows Server 2019 image
-      - '--image-project=windows-cloud' # Windows Cloud project
-      - '--boot-disk-size=50GB'         # Disk size
-      - '--boot-disk-type=pd-standard'  # Standard HDD disk type
-      - '--metadata=windows-startup-script-ps1=Add-LocalUser -Name "admin_user" -Password (ConvertTo-SecureString "AdminPassword123!" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "admin_user"'
-      - '--tags=http-server,https-server'  # Optional: allow HTTP/HTTPS firewall rules
-
+      - 'my-windows-instance47'  # Instance name
+      - '--zone=us-central1-a'
+      - '--machine-type=n1-standard-2'
+      - '--image-family=windows-2019'
+      - '--image-project=windows-cloud'
+      - '--boot-disk-size=50GB'  # Disk size (can be adjusted as needed)
+      
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Set Admin Username and Password'
     args:
       - 'compute'
       - 'reset-windows-password'
+      - 'my-windows-instance47'  # Instance name
       - '--zone=us-central1-a'
-      - '--user=bhowmick_partha1999'  # Administrator username
-      - '--instance=my-windows-instance46'  # Your instance name
+      - '--user=admin'  # Set the username for RDP
 
 
 # Service account and logging options
@@ -33,5 +29,5 @@ timeout: '1200s'
 
 # Substitutions for flexibility (optional)
 substitutions:
-  _INSTANCE_NAME: 'my-windows-instance46'
+  _INSTANCE_NAME: 'my-windows-instance47'
 
