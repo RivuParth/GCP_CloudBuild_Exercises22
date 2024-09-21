@@ -1,24 +1,27 @@
 steps:
-  # Step 1: Create the Compute Engine instance with a startup script
+  # Step 1: Create a Windows Compute Engine instance
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Create Compute Engine Instance'
     args:
       - 'compute'
       - 'instances'
       - 'create'
-      - 'my-compute-instance23'
-      - '--zone=us-central1-a'
-      - '--machine-type=n1-standard-2'
-      - '--image-family=windows-2019'
-      - '--image-project=windows-cloud'
-      - '--boot-disk-size=50GB'
-      - '--boot-disk-type=pd-standard'
-      - '--metadata=windows-startup-script-ps1=Add-LocalUser -Name "bhowmick_partha19988" -Password (ConvertTo-SecureString "MySecurePassword123" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "bhowmick_partha19988"'
-      - '--tags=http-server,https-server'
+      - 'my-windows-instance45'           # Instance name
+      - '--zone=us-central1-a'          # Specify the zone
+      - '--machine-type=n1-standard-2'  # Specify machine type
+      - '--image-family=windows-2019'   # Windows Server 2019 image
+      - '--image-project=windows-cloud' # Windows Cloud project
+      - '--boot-disk-size=50GB'         # Disk size
+      - '--boot-disk-type=pd-standard'  # Standard HDD disk type
+      - '--metadata=windows-startup-script-ps1=Add-LocalUser -Name "admin_user" -Password (ConvertTo-SecureString "AdminPassword123!" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "admin_user"'
+      - '--tags=http-server,https-server'  # Optional: allow HTTP/HTTPS firewall rules
 
-# Specify the default service account for this build
-serviceAccount: '878866643834-compute@developer.gserviceaccount.com'
-logs_bucket: 'gs://gcstestex'
+# Service account and logging options
+serviceAccount: '878866643834-compute@developer.gserviceaccount.com'  # Specify your Compute Engine service account
+logsBucket: 'gs://gcstestex'           # Specify your logs bucket
 timeout: '1200s'
+
+# Substitutions for flexibility (optional)
 substitutions:
-  _INSTANCE_NAME: 'my-compute-instance23'
+  _INSTANCE_NAME: 'my-windows-instance45'
+

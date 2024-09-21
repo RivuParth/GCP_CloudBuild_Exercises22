@@ -1,11 +1,17 @@
-# Compute Engine Instance Access
+# Windows Compute Engine Deployment
 
-## Instance Details
-- **Instance Name**: `my-compute-instance244`
-- **Zone**: `us-central1-a`
+This repository contains a Cloud Build pipeline (`cloudbuild.yaml`) that automates the deployment of a Windows Compute Engine instance with the following specifications:
 
-## Access Credentials
-- **Username**: `bhowmick_partha1999`
-- **Password**: `7:jS[N?LdUSTjp\`
+- **Operating System**: Windows Server 2019
+- **Machine Type**: n1-standard-2 (2 vCPUs, 7.5 GB memory)
+- **Boot Disk**: 50GB Standard HDD
+- **Admin User**: `admin_user`
+- **Admin Password**: `AdminPassword123!`
 
-> **Note:** Please keep this information secure and do not share it publicly.
+## Steps to Deploy
+
+1. **Create a Google Cloud Project** and ensure you have the required permissions to create Compute Engine instances.
+2. **Enable the Compute Engine API** in your project:
+   ```bash
+   gcloud services enable compute.googleapis.com
+
