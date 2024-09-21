@@ -6,7 +6,7 @@ steps:
       - 'compute'
       - 'instances'
       - 'create'
-      - 'my-windows-instance45'           # Instance name
+      - 'my-windows-instance46'           # Instance name
       - '--zone=us-central1-a'          # Specify the zone
       - '--machine-type=n1-standard-2'  # Specify machine type
       - '--image-family=windows-2019'   # Windows Server 2019 image
@@ -23,7 +23,7 @@ steps:
       - 'reset-windows-password'
       - '--zone=us-central1-a'
       - '--user=bhowmick_partha1999'  # Administrator username
-      - '--instance=my-windows-instance45'  # Your instance name
+      - '--instance=my-windows-instance46'  # Your instance name
 
 
 # Service account and logging options
@@ -33,5 +33,5 @@ timeout: '1200s'
 
 # Substitutions for flexibility (optional)
 substitutions:
-  _INSTANCE_NAME: 'my-windows-instance45'
+  _INSTANCE_NAME: 'my-windows-instance46'
 
