@@ -23,7 +23,7 @@ steps:
       - 'compute'
       - 'reset-windows-password'
       - '--zone=us-central1-a'
-      - '--user=bhowmick_partha1999'  # Your username
+      - '--user=bhowmick_partha19999'  # Your username
       - '--instance=my-compute-instance22'  # Your instance name
 
 # Specify the default service account for this build
