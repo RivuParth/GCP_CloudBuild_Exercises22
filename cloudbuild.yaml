@@ -1,4 +1,3 @@
-# Cloud Build configuration file
 steps:
   # Step 1: Set up the Compute Engine instance
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -8,8 +7,8 @@ steps:
       - 'instances'
       - 'create'
       - 'my-gcstest-instance5'  # Your instance name
-      - '--zone=us-central1-f'  # Your instance zone
-      - '--machine-type=n1-standard-2'  # Machine type (2 vCPUs, 7.5 GB RAM)
+      - '--zone=us-central1-f'   # Your instance zone
+      - '--machine-type=n1-standard-2'  # Your machine type
       - '--image-family=windows-2022'  # OS image family (Windows Server 2022)
       - '--image-project=windows-cloud'  # Image project (Windows Cloud)
       - '--boot-disk-size=50GB'  # Boot disk size (Standard 50 GB)
@@ -23,18 +22,25 @@ steps:
       - 'compute'
       - 'reset-windows-password'
       - '--zone=us-central1-f'
-      - '--user=testgcpnow'  # Your admin username
+      - '--user=testgcpnow'  # Your username
       - '--instance=my-gcstest-instance5'  # Your instance name
-
-# Specify the default service account for this build
-serviceAccount: '878866643834-compute@developer.gserviceaccount.com'
-
-# Specify the logs bucket (replace with your actual bucket name)
-logs_bucket: 'gs://gcstestex'  # Replace with your logs bucket name
 
 # Optional: Define a timeout (adjust if necessary)
 timeout: '1200s'  # 20 minutes
 
+# Specify the service account if required
+serviceAccount: '878866643834-compute@developer.gserviceaccount.com'
+
+# Define your logs bucket
+logs_bucket: 'gs://gcstestex'  # Replace with your logs bucket
+
 # Optional: Define any substitutions for reusable configuration
 substitutions:
   _INSTANCE_NAME: 'my-gcstest-instance5'  # Your instance name
+
+# Optional: Specify triggers for automatic builds
+trigger:
+  - branch: '^main$'
+
+
+
