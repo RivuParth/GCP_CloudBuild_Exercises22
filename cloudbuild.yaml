@@ -29,6 +29,9 @@ steps:
 # Specify the default service account for this build
 serviceAccount: '878866643834-compute@developer.gserviceaccount.com'
 
+# Specify the logs bucket (replace with your actual bucket name)
+logs_bucket: 'gs://gcstestex'
+
 # Optional: Define a timeout (adjust if necessary)
 timeout: '1200s'  # 20 minutes
 
