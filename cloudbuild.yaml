@@ -1,33 +1,27 @@
 steps:
+  
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Create Compute Engine Instance'
     args:
       - 'compute'
       - 'instances'
       - 'create'
-      - 'my-windows-instance47'  # Instance name
-      - '--zone=us-central1-a'
-      - '--machine-type=n1-standard-2'
-      - '--image-family=windows-2019'
-      - '--image-project=windows-cloud'
-      - '--boot-disk-size=50GB'  # Disk size (can be adjusted as needed)
-      
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: 'Set Admin Username and Password'
-    args:
-      - 'compute'
-      - 'reset-windows-password'
-      - 'my-windows-instance47'  # Instance name
-      - '--zone=us-central1-a'
-      - '--user=admin'  # Set the username for RDP
+      - 'my-windows-instance45'          
+      - '--zone=us-central1-a'         
+      - '--machine-type=n1-standard-2'  
+      - '--image-family=windows-2019'   
+      - '--image-project=windows-cloud' 
+      - '--boot-disk-size=50GB'         
+      - '--boot-disk-type=pd-standard'  
+      - '--metadata=windows-startup-script-ps1=Add-LocalUser -Name "admin_user" -Password (ConvertTo-SecureString "AdminPassword123!" -AsPlainText -Force); Add-LocalGroupMember -Group "Administrators" -Member "admin_user"'
+      - '--tags=http-server,https-server'  
 
 
-# Service account and logging options
-serviceAccount: '878866643834-compute@developer.gserviceaccount.com'  # Specify your Compute Engine service account
-logsBucket: 'gs://gcstestex'           # Specify your logs bucket
+serviceAccount: '978741093453-compute@developer.gserviceaccount.com'  
+logsBucket: 'gs://gcstestexx'           
 timeout: '1200s'
 
-# Substitutions for flexibility (optional)
+
 substitutions:
-  _INSTANCE_NAME: 'my-windows-instance47'
+  _INSTANCE_NAME: 'my-windows-instance45'
 
