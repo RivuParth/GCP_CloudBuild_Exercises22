@@ -7,7 +7,7 @@ steps:
       - 'compute'
       - 'instances'
       - 'create'
-      - 'my-compute-instance22'  # Your instance name
+      - 'my-compute-instance23'  # Your instance name
       - '--zone=us-central1-a'     # Your instance zone
       - '--machine-type=e2-medium' # Your machine type
       - '--image-family=windows-2019'  # OS image family (Windows Server 2019)
